@@ -1,8 +1,7 @@
 const express = require('express');
 const app = express();
 const ExpressError = require('./expressError');
-const { scrapeFond, getNodes, parseNodes, filterRecipes, checkRecipe } = require('./helpers');
-
+const Fond = require('./fond');
 // Do we want to separate this out for more routes in the future?
 // const ExpressError = require('./expressError');
 
@@ -15,11 +14,13 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
 	if (!req.body.url) throw new ExpressError('Provide a link to Serious Eats', 404);
 	const seriousUrl = req.body.url;
-	// const nodes = await getNodes(seriousUrl);
-	// const parsedNodes = await parseNodes(nodes);
-	// const recipes = filterRecipes(parsedNodes);
-	// const recipe = checkRecipe(recipes);
-	res.status(201).json({ test: 'recipe' });
+	try {
+		Fond.scrapeFond(seriousUrl).then((fond) => {
+			return res.status(201).json({ recipe: fond });
+		});
+	} catch (error) {
+		return next(error);
+	}
 });
 
 /** 404 Handler */
