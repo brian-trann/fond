@@ -11,12 +11,50 @@ app.get('/', (req, res) => {
 	res.json({ test: 'test' });
 });
 
-app.post('/', (req, res) => {
-	if (!req.body.url) throw new ExpressError('Provide a link to Serious Eats', 404);
-	const seriousUrl = req.body.url;
+app.post('/', (req, res, next) => {
+	if (!req.body.url) throw new ExpressError('Provide a link', 404);
+	const userUrl = req.body.url;
 	try {
-		Fond.scrapeFond(seriousUrl).then((fond) => {
+		Fond.scrapeFond(userUrl).then((fond) => {
 			return res.status(201).json({ recipe: fond });
+		});
+	} catch (error) {
+		return next(error);
+	}
+});
+
+app.post('/md', (req, res, next) => {
+	if (!req.body.url) throw new ExpressError('Provide a link', 404);
+	const userUrl = req.body.url;
+	try {
+		Fond.scrapeFond(userUrl).then((fond) => Fond.formatFondMd(fond)).then((fondMd) => {
+			return res.status(201).json({ markdown: fondMd });
+		});
+	} catch (error) {
+		return next(error);
+	}
+});
+
+app.post('/all', (req, res, next) => {
+	if (!req.body.url) throw new ExpressError('Provide a link', 404);
+	const userUrl = req.body.url;
+	try {
+		Fond.scrapeFond(userUrl).then((fond) => {
+			const markdown = Fond.formatFondMd(fond);
+			const text = Fond.formatFondText(fond);
+			return res.status(201).json({ data: fond, markdown: markdown, text });
+		});
+	} catch (error) {
+		return next(error);
+	}
+});
+
+app.post('/txt', (req, res, next) => {
+	if (!req.body.url) throw new ExpressError('Provide a link', 404);
+	const userUrl = req.body.url;
+	try {
+		Fond.scrapeFond(userUrl).then((fond) => Fond.formatFondText(fond)).then((fondTxt) => {
+			return res.status(201).json({ text: fondTxt });
 		});
 	} catch (error) {
 		return next(error);
