@@ -10,7 +10,7 @@ Fond is a web scraping tool for recipes, by targeting the `@Recipe` inside of ld
 Fond.scrapeFond(testUrl).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError)
 ```
 
-## Notes / To Do
+# Notes / To Do
 
 * Maybe clean up fond.js
 * add jsonschema for URL validation
