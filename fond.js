@@ -5,13 +5,9 @@ const path = require('path');
 
 // const testUrl = 'https://www.seriouseats.com/recipes/2013/11/sous-vide-deep-fried-turkey-porchetta-recipe.html';
 // const testUrl2 = 'https://www.bonappetit.com/recipe/grain-free-tahini-granola';
-
+// const testUrl3 = 'https://www.seriouseats.com/recipes/2017/02/detroit-style-pizza-recipe.html';
 class Fond {
 	// this class requires cheerio, axios, fs, and path
-
-	// To use:
-	// Fond.scrapeFond(testUrl).then((fond) => Fond.fondToFile(fond, 'txt')).catch(Fond.handleError); // txt
-	// Fond.scrapeFond(testUrl).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
 
 	static parseNodes(nodesArr) {
 		return nodesArr.map(([ child ]) => {
@@ -127,5 +123,5 @@ class Fond {
 		return recipe;
 	}
 }
-
+Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
 module.exports = Fond;

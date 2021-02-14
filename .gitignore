@@ -1,1 +1,5 @@
+# Node dependencies
 node_modules/
+
+# file output directory
+file_output/
