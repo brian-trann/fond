@@ -119,8 +119,11 @@ class Fond {
 		const parsedNodes = Fond.parseNodes(nodesArr);
 		const recipes = Fond.filterRecipes(parsedNodes);
 		const recipe = Fond.checkRecipe(recipes);
-		if (!recipe) throw "More than one @type='Recipe' was found";
-		return recipe;
+		if (!recipe) {
+			throw 'Error: No ld+json:@Recipe or more than one';
+		} else {
+			return recipe;
+		}
 	}
 }
 // Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
