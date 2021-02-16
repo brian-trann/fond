@@ -24,7 +24,7 @@ npm run fond -- 'http://seriouseats...' 'txt'
 
 `.fondToFile()` is a function that will make a text or markdown file, depending on the second argument. Default file output is a markdown file.
 ```javascript
-Fond.scrapeFond(testUrl).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError)
+Fond.scrapeFond(testUrl).then((fond) => Fond.fondToFile(fond)).catch((error)=> Fond.handleError(error))
 ```
 
 # Notes / To Do

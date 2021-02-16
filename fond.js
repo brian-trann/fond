@@ -104,7 +104,7 @@ class Fond {
 		return str;
 	};
 
-	handleError = (error) => console.error(error);
+	static handleError = (error) => console.error(error);
 
 	/**
    * Scrape a link
