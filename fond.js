@@ -123,5 +123,5 @@ class Fond {
 		return recipe;
 	}
 }
-Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
+// Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
 module.exports = Fond;
