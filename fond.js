@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const { BadRequestError } = require('./expressError');
 /**
  * Fond requires cheerio, axios, fs, and path
@@ -50,28 +50,28 @@ class Fond {
    * @param {*} fond 
    * @param {String|null} fileType 
    */
-	static fondToFile = (fond, fileType) => {
-		const type = fileType || 'md';
-		if (type === 'txt' || type === 'md') {
-			const fileName = fond.name.replace(/\s/g, '').replace(/[^\w\s]/gi, '');
-			const resolvedPath = path.resolve(`${fileName}.${type}`);
-			let text = null;
-			if (type === 'md') {
-				text = Fond.formatFondMd(fond);
-			} else {
-				text = Fond.formatFondText(fond);
-			}
-			fs.writeFile(resolvedPath, text, (error) => {
-				if (error) {
-					throw new Error();
-				} else {
-					console.log('success');
-				}
-			});
-		} else {
-			throw 'not valid filetype';
-		}
-	};
+	// static fondToFile = (fond, fileType) => {
+	// 	const type = fileType || 'md';
+	// 	if (type === 'txt' || type === 'md') {
+	// 		const fileName = fond.name.replace(/\s/g, '').replace(/[^\w\s]/gi, '');
+	// 		const resolvedPath = path.resolve(`${fileName}.${type}`);
+	// 		let text = null;
+	// 		if (type === 'md') {
+	// 			text = Fond.formatFondMd(fond);
+	// 		} else {
+	// 			text = Fond.formatFondText(fond);
+	// 		}
+	// 		fs.writeFile(resolvedPath, text, (error) => {
+	// 			if (error) {
+	// 				throw new Error();
+	// 			} else {
+	// 				console.log('success');
+	// 			}
+	// 		});
+	// 	} else {
+	// 		throw 'not valid filetype';
+	// 	}
+	// };
 	static formatFondMd = (fond) => {
 		const makeRecipeHeader = (fond) => {
 			const { description, name, recipeYield } = fond;

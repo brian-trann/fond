@@ -1,27 +1,31 @@
 const express = require('express');
-const app = express();
-const ExpressError = require('./expressError');
+const { NotFoundError } = require('./expressError');
 const recipeRoutes = require('./routes/recipe');
+const morgan = require('morgan');
 
-// Do we want to separate this out for more routes in the future?
-// const ExpressError = require('./expressError');
+/** Express app for Fond webapp */
 
 // app.use(cors());
+const app = express();
 app.use(express.json());
+app.use(morgan('tiny'));
 
+/** Routes */
 app.use('/recipe', recipeRoutes);
 
 /** 404 Handler */
 app.use((req, res, next) => {
-	return new ExpressError('Not Found', 404);
+	return next(new NotFoundError());
 });
 
 /** General Error Handler */
 app.use((err, req, res, next) => {
-	res.status(err.status || 500);
+	if (process.env.NODE_ENV !== 'test') console.error(err.stack);
+	const status = err.status || 500;
+	const message = err.message;
 
-	return res.json({
-		error : err.message
+	return res.status(status).json({
+		error : { message, status }
 	});
 });
 module.exports = app;

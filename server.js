@@ -1,5 +1,6 @@
 const app = require('./app');
 
-app.listen(3000, () => {
-	console.log('Server starting on port 3000');
+const { PORT } = require('./config');
+app.listen(PORT, () => {
+	console.log(`Started on http://localhost:${PORT}`);
 });

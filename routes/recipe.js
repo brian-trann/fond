@@ -35,7 +35,7 @@ router.get('/', async (req, res, next) => {
  * Returns {markdown: fondMd}
  *   where fondMd is a formatted markdown string
  */
-router.get('/md/', async (req, res, next) => {
+router.get('/md', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
@@ -52,7 +52,7 @@ router.get('/md/', async (req, res, next) => {
  * Returns {text: fondTxt}
  *   where fondTxt is a formatted string without special markup
  */
-router.get('/txt/', async (req, res, next) => {
+router.get('/txt', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
@@ -67,13 +67,10 @@ router.get('/txt/', async (req, res, next) => {
  * 
  * Returns {recipe, text, markdown}
  */
-router.get('/all/', async (req, res, next) => {
+router.get('/all', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
-		if (!fond) {
-			throw new ExpressError('test', 400);
-		}
 		const fondTxt = Fond.formatFondText(fond);
 		const fondMd = Fond.formatFondMd(fond);
 		return res.json({ recipe: fond, text: fondTxt, markdown: fondMd });
