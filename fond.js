@@ -59,7 +59,7 @@ class Fond {
 			}
 			fs.writeFile(resolvedPath, text, (error) => {
 				if (error) {
-					throw error;
+					throw new Error();
 				} else {
 					console.log('success');
 				}
@@ -120,7 +120,7 @@ class Fond {
 		const recipes = Fond.filterRecipes(parsedNodes);
 		const recipe = Fond.checkRecipe(recipes);
 		if (!recipe) {
-			throw 'Error: No ld+json:@Recipe or more than one';
+			throw new Error('Error: No ld+json:@Recipe or more than one');
 		} else {
 			return recipe;
 		}
