@@ -1,4 +1,4 @@
-const { BadRequestError } = require('./expressError');
+const { BadRequestError } = require('../expressError');
 const validUrl = require('valid-url');
 /**
  * ensureValidUri:

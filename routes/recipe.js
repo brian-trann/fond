@@ -2,7 +2,7 @@
 
 const express = require('express');
 const Fond = require('../fond');
-const { ensureValidUri } = require('../middleware');
+const { ensureValidUri } = require('../middleware/middleware');
 const router = express.Router();
 
 /**
