@@ -11,8 +11,13 @@ const { BadRequestError } = require('./expressError');
  * - instead of .fondToFile usage of Regex, consider using slugify library
  */
 class Fond {
-	// this class requires cheerio, axios, fs, and path
-
+	// this class requires cheerio, axios
+	/**
+	 * parseNodes is a helper method for .scrapeFond()
+	 * - should not need to be used by itself
+	 * @param {*} nodesArr 
+	 * @returns 
+	 */
 	static parseNodes(nodesArr) {
 		return nodesArr.map(([ child ]) => {
 			return JSON.parse(child.data);
@@ -20,7 +25,8 @@ class Fond {
 	}
 
 	/**
-     * 
+     * filterRecipes is a helper method for .scrapeFond()
+		 * - should not need to be used by itself
      * @param {Array} parsedNodes 
      * @return {Array}
      */
@@ -31,7 +37,8 @@ class Fond {
 	};
 
 	/**
-   * 
+   * checkRecipe is a helper method for .scrapeFond()
+	 * - should not need to be used by itself
    * @param {Array} recipe 
    * @return {{}|false}
    */
@@ -45,6 +52,10 @@ class Fond {
 	};
 
 	/**
+	 * DISABLED TO REDUCE DEPENDENCIES
+	 * 
+	 * .fondToFile() was impleneted for command line file generation
+	 * 
    * default filetype is md.
    * If a filetype is passed in, that is not 'txt'
    * @param {*} fond 
@@ -72,6 +83,14 @@ class Fond {
 	// 		throw 'not valid filetype';
 	// 	}
 	// };
+
+	/**
+	 * formatFondMd - DEPRECATED
+	 *  - This is a less dynamic method than .formatFond()
+	 *  - Returns a string
+	 * 
+	 * Use .formatFond() instead.
+	 */
 	static formatFondMd = (fond) => {
 		const makeRecipeHeader = (fond) => {
 			const { description, name, recipeYield } = fond;
@@ -101,6 +120,13 @@ class Fond {
 		return [ header, ingredients, instructions ].join('\n');
 	};
 
+	/**
+	 * formatFondText - DEPRECATED
+	 *  - This is a less dynamic method than .formatFond()
+	 *  - Returns a string
+	 * 
+	 * Use .formatFond() instead
+	 */
 	static formatFondText = (fond) => {
 		const makeRecipeHeader = (fond) => {
 			const { description, name, recipeYield } = fond;
@@ -130,10 +156,64 @@ class Fond {
 		return [ header, ingredients, instructions ].join('\n');
 	};
 
+	/**
+	 * formatFond
+	 *  - a versitle method that returns an object containing 
+	 * 			formatted markdown and text markup
+	 *  - user can concatenate the properties they wish to use
+	 * @param {Object} fond 
+	 * @returns {} { 
+	 * 								markdown : { header, ingredients, instructions } , 
+	 * 								text : { header, ingredients, instructions }
+	 * 						}
+	 */
+	static formatFond = (fond) => {
+		const fondResponse = { text: {}, markdown: {} };
+
+		const makeRecipeHeader = (fond) => {
+			const { description, name, recipeYield } = fond;
+			fondResponse.text.header = `${name} \n${description} \nYield: ${recipeYield} \n`;
+			fondResponse.markdown.header = `# ${name} \n ## ${description} \n * Yield: ${recipeYield} \n`;
+			if (fond.totalTime) {
+				fondResponse.text.header += `Total Time: ${fond.totalTime}\n`;
+				fondResponse.markdown.header += `* Total Time: ${fond.totalTime}\n`;
+			}
+		};
+		const makeIngredients = (fond) => {
+			fondResponse.text.ingredients = 'Ingredients \n';
+			fondResponse.markdown.ingredients = '## Ingredients \n';
+
+			fond.recipeIngredient.forEach((ingredient) => {
+				fondResponse.text.ingredients += '* ' + ingredient + '\n';
+				fondResponse.markdown.ingredients += '* ' + ingredient + '\n';
+			});
+		};
+		const makeInstructions = (fond) => {
+			fondResponse.text.instructions = 'Instructions \n';
+			fondResponse.markdown.instructions = '## Instructions \n';
+
+			fond.recipeInstructions.forEach((step, i) => {
+				fondResponse.text.instructions += `${i + 1}. ` + step.text + '\n';
+				fondResponse.markdown.instructions += `${i + 1}. ` + step.text + '\n';
+			});
+		};
+		makeRecipeHeader(fond);
+		makeIngredients(fond);
+		makeInstructions(fond);
+
+		return fondResponse;
+	};
+	/**
+	 * handleError - DEPRECATED
+	 * - was used as a general error handler used as a command line tool
+	 * @param {*} error 
+	 * @returns 
+	 */
 	static handleError = (error) => console.error(error);
 
 	/**
-   * Scrape a link
+   * scrapeFond()
+	 *  - main method to scrape a given URL
    * @param {String} link 
    * @returns Promise, that will resolve to an Object, will throw error
    */

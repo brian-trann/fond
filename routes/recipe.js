@@ -32,15 +32,16 @@ router.get('/', async (req, res, next) => {
 /**
  * GET /md/
  * 
- * Returns {markdown: fondMd}
- *   where fondMd is a formatted markdown string
+ * Returns { markup : 
+ *              { markdown : { header, ingredients , instructions}
+ *        }
  */
 router.get('/md', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
-		const fondMd = Fond.formatFondMd(fond);
-		return res.json({ markdown: fondMd });
+		const { markdown } = Fond.formatFond(fond);
+		return res.json({ markup: { markdown } });
 	} catch (error) {
 		return next(error);
 	}
@@ -49,15 +50,16 @@ router.get('/md', async (req, res, next) => {
 /**
  * GET /txt/
  * 
- * Returns {text: fondTxt}
- *   where fondTxt is a formatted string without special markup
+ * Returns { markup : 
+ *              { text : { header, ingredients , instructions}
+ *          }
  */
 router.get('/txt', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
-		const fondTxt = Fond.formatFondText(fond);
-		return res.json({ text: fondTxt });
+		const { text } = Fond.formatFond(fond);
+		return res.json({ markup: { text } });
 	} catch (error) {
 		return next(error);
 	}
@@ -65,15 +67,19 @@ router.get('/txt', async (req, res, next) => {
 /**
  * GET /all/
  * 
- * Returns {recipe, text, markdown}
+ * Returns { markup : 
+ *              { markdown : { header, ingredients , instructions}, 
+ *                  text :  { header, ingredients , instructions} 
+ *              }, 
+ *        recipe : fond }
+ * 
  */
 router.get('/all', async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
-		const fondTxt = Fond.formatFondText(fond);
-		const fondMd = Fond.formatFondMd(fond);
-		return res.json({ recipe: fond, text: fondTxt, markdown: fondMd });
+		const { markdown, text } = Fond.formatFond(fond);
+		return res.json({ markup: { markdown, text }, recipe: fond });
 	} catch (error) {
 		return next(error);
 	}
