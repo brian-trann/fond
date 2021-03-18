@@ -2,7 +2,7 @@
 
 const express = require('express');
 const Fond = require('../fond');
-const ExpressError = require('../expressError');
+const { ensureValidUri } = require('../middleware');
 const router = express.Router();
 
 /**
@@ -18,9 +18,8 @@ const router = express.Router();
  *  - https://developers.google.com/search/docs/data-types/recipe
  * 
  */
-router.get('/', async (req, res, next) => {
+router.get('/', ensureValidUri, async (req, res, next) => {
 	try {
-		// run middleware to check query params
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
 		return res.json({ recipe: fond });
@@ -36,7 +35,7 @@ router.get('/', async (req, res, next) => {
  *              { markdown : { header, ingredients , instructions}
  *        }
  */
-router.get('/md', async (req, res, next) => {
+router.get('/md', ensureValidUri, async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
@@ -54,7 +53,7 @@ router.get('/md', async (req, res, next) => {
  *              { text : { header, ingredients , instructions}
  *          }
  */
-router.get('/txt', async (req, res, next) => {
+router.get('/txt', ensureValidUri, async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
@@ -74,7 +73,7 @@ router.get('/txt', async (req, res, next) => {
  *        recipe : fond }
  * 
  */
-router.get('/all', async (req, res, next) => {
+router.get('/all', ensureValidUri, async (req, res, next) => {
 	try {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
