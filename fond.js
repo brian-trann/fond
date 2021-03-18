@@ -219,6 +219,7 @@ class Fond {
    */
 	static async scrapeFond(link) {
 		const res = await axios.get(link);
+		console.log('NETWORK REQUEST');
 		const $ = cheerio.load(res.data);
 		const nodes = $(`script[type="application/ld+json"]`).toArray();
 		const nodesArr = nodes.map((element) => element.children);
