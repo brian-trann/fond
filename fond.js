@@ -2,10 +2,14 @@ const cheerio = require('cheerio');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-
-// const testUrl = 'https://www.seriouseats.com/recipes/2013/11/sous-vide-deep-fried-turkey-porchetta-recipe.html';
-// const testUrl2 = 'https://www.bonappetit.com/recipe/grain-free-tahini-granola';
-// const testUrl3 = 'https://www.seriouseats.com/recipes/2017/02/detroit-style-pizza-recipe.html';
+const { BadRequestError } = require('./expressError');
+/**
+ * Fond requires cheerio, axios, fs, and path
+ * 
+ * TODO: 
+ * - refactor and separate out command line & Express.js functionality
+ * - instead of .fondToFile usage of Regex, consider using slugify library
+ */
 class Fond {
 	// this class requires cheerio, axios, fs, and path
 
@@ -49,7 +53,7 @@ class Fond {
 	static fondToFile = (fond, fileType) => {
 		const type = fileType || 'md';
 		if (type === 'txt' || type === 'md') {
-			const fileName = fond.name.split(' ').join('').replace(/[^\w\s]/gi, '');
+			const fileName = fond.name.replace(/\s/g, '').replace(/[^\w\s]/gi, '');
 			const resolvedPath = path.resolve(`${fileName}.${type}`);
 			let text = null;
 			if (type === 'md') {
@@ -69,39 +73,61 @@ class Fond {
 		}
 	};
 	static formatFondMd = (fond) => {
-		let str = '';
-		str += '# ' + fond.name + '\n';
-		str += '### ' + fond.description + '\n';
-		str += '* Yield: ' + fond.recipeYield + '\n\n';
-		// total time is not required in the schema
-		// str += '* Total Time: ' + fond.totalTime + '\n\n';
-		str += '## Ingredients ' + '\n\n';
-		fond.recipeIngredient.forEach((ingredient) => {
-			str += '* ' + ingredient + '\n';
-		});
-		str += '\n\n## Instructions' + '\n';
-		fond.recipeInstructions.forEach((step, i) => {
-			str += `${i + 1}. ` + step.text + '\n';
-		});
-		return str;
+		const makeRecipeHeader = (fond) => {
+			const { description, name, recipeYield } = fond;
+			let header = `# ${name} \n ## ${description} \n * Yield: ${recipeYield} \n`;
+			if (fond.totalTime) {
+				header += `* Total Time: ${fond.totalTime}\n`;
+			}
+			return header;
+		};
+		const makeIngredients = (fond) => {
+			let ingredients = '## Ingredients \n';
+			fond.recipeIngredient.forEach((ingredient) => {
+				ingredients += '* ' + ingredient + '\n';
+			});
+			return ingredients;
+		};
+		const makeInstructions = (fond) => {
+			let instructions = '## Instructions \n';
+			fond.recipeInstructions.forEach((step, i) => {
+				instructions += `${i + 1}. ` + step.text + '\n';
+			});
+			return instructions;
+		};
+		const header = makeRecipeHeader(fond);
+		const ingredients = makeIngredients(fond);
+		const instructions = makeInstructions(fond);
+		return [ header, ingredients, instructions ].join('\n');
 	};
 
 	static formatFondText = (fond) => {
-		let str = '';
-		str += fond.name + '\n\n';
-		str += fond.description + '\n';
-		str += 'Yield: ' + fond.recipeYield + '\n\n';
-		// total time is not required in the schema
-		// str += '* Total Time: ' + fond.totalTime + '\n\n';
-		str += 'Ingredients ' + '\n\n';
-		fond.recipeIngredient.forEach((ingredient) => {
-			str += '* ' + ingredient + '\n';
-		});
-		str += '\nInstructions' + '\n';
-		fond.recipeInstructions.forEach((step, i) => {
-			str += `${i + 1}. ` + step.text + '\n';
-		});
-		return str;
+		const makeRecipeHeader = (fond) => {
+			const { description, name, recipeYield } = fond;
+			let header = `${name} \n${description} \nYield: ${recipeYield} \n`;
+			if (fond.totalTime) {
+				header += `Total Time: ${fond.totalTime}\n`;
+			}
+			return header;
+		};
+		const makeIngredients = (fond) => {
+			let ingredients = 'Ingredients \n';
+			fond.recipeIngredient.forEach((ingredient) => {
+				ingredients += '* ' + ingredient + '\n';
+			});
+			return ingredients;
+		};
+		const makeInstructions = (fond) => {
+			let instructions = 'Instructions \n';
+			fond.recipeInstructions.forEach((step, i) => {
+				instructions += `${i + 1}. ` + step.text + '\n';
+			});
+			return instructions;
+		};
+		const header = makeRecipeHeader(fond);
+		const ingredients = makeIngredients(fond);
+		const instructions = makeInstructions(fond);
+		return [ header, ingredients, instructions ].join('\n');
 	};
 
 	static handleError = (error) => console.error(error);
@@ -120,11 +146,11 @@ class Fond {
 		const recipes = Fond.filterRecipes(parsedNodes);
 		const recipe = Fond.checkRecipe(recipes);
 		if (!recipe) {
-			throw new Error('Error: No ld+json:@Recipe or more than one');
+			throw new BadRequestError('Unable to parse script[type="application/ld+json"]');
 		} else {
 			return recipe;
 		}
 	}
 }
-// Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
+
 module.exports = Fond;
