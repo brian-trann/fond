@@ -8,7 +8,7 @@ https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.
 ```
 
 ## The problem I am trying to solve
-I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with web modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone.
+I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with web modals blocking the ability to scroll to find the ingredients and recipe at the very bottom of the page. I especially find this inconvenient when I am at the grocery store and I need make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone.
 
 While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extention that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
 
