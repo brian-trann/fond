@@ -59,13 +59,13 @@ class Fond {
 			}
 			fs.writeFile(resolvedPath, text, (error) => {
 				if (error) {
-					throw error;
+					throw new Error();
 				} else {
 					console.log('success');
 				}
 			});
 		} else {
-			throw 'not valid filetype';
+			throw new Error('not valid filetype');
 		}
 	};
 	static formatFondMd = (fond) => {
@@ -104,7 +104,10 @@ class Fond {
 		return str;
 	};
 
-	static handleError = (error) => console.error(error);
+	static handleError = (error) => {
+		console.log('ERROR: bad url');
+		process.exit(1);
+	};
 
 	/**
    * Scrape a link
@@ -120,11 +123,11 @@ class Fond {
 		const recipes = Fond.filterRecipes(parsedNodes);
 		const recipe = Fond.checkRecipe(recipes);
 		if (!recipe) {
-			throw 'Error: No ld+json:@Recipe or more than one';
+			throw new Error('Error: No ld+json:@Recipe or more than one');
 		} else {
 			return recipe;
 		}
 	}
 }
-// Fond.scrapeFond(testUrl3).then((fond) => Fond.fondToFile(fond)).catch(Fond.handleError); // markdown
+
 module.exports = Fond;
