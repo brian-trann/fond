@@ -1,5 +1,17 @@
 # Fond
-Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch.
+Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on Heroko [LINK](https://fond-backend.herokuapp.com/)
+
+
+Click this [example link here](https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F10%2Fsous-vide-pork-belly-bun-pork-braise-mayonnaise-quick-pickled-cucumbers-recipe.html) or copy and paste the link below into your browser. The request is made to the `/recipe/all` endpoint.
+```
+https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F10%2Fsous-vide-pork-belly-bun-pork-braise-mayonnaise-quick-pickled-cucumbers-recipe.html
+```
+
+## The problem I am trying to solve
+I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with web modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone.
+
+While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extention that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
+
 
 ## Description
 The API uses `Fond.scrapeFond(url)` which scrapes recipe data by targeting the `@Recipe` inside of ld+json scripts. It takes advantage of [Google's structured data guidelines for recipes](https://developers.google.com/search/docs/data-types/recipe). 
