@@ -1,5 +1,5 @@
 # Fond
-Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end.
+Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch.
 
 ## Description
 The API uses `Fond.scrapeFond(url)` which scrapes recipe data by targeting the `@Recipe` inside of ld+json scripts. It takes advantage of [Google's structured data guidelines for recipes](https://developers.google.com/search/docs/data-types/recipe). 
@@ -9,7 +9,7 @@ v12.18.3
 
 # Notes / To Do
 - [x] Separate Command line usage and Express Backend
-- [ ] Refactor `.formatFondMd` to include image
+- [ ] Refactor `.formatFond` to include image
 - [ ] Authentication
 - [ ] Integrate database
 - [ ] Validation
