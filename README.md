@@ -1,4 +1,8 @@
 # Fond
+
+>The culinary term fond, French for "base" or "foundation", refers to this sauce, although it is also sometimes used to describe the browned food bits instead (commonly in the United States). - [Wikipedia](https://en.wikipedia.org/wiki/Deglazing_(cooking))
+
+---
 Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/), but the `/` endpoint is not set up and will send an error. The link below will respond with something useful.
 
 
@@ -9,6 +13,10 @@ https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.
 
 ## The problem I am trying to solve:
  I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone. Only to have the recipe reload again when I go to cook it.
+
+Another slight quirk, with popular recipe websites is that there sometimes is a lengthy story behind how they came up with the recipe itself.
+
+I just want a way to easily see the recipe, ingredients and instructions... The "fond" of the recipe page.
 
 While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extension that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
 
@@ -42,6 +50,8 @@ Another consideration is that the `@Recipe` spec might change.
 * Twilio integration to send yourself the plain text from the recipe
 * App integration for popular productivity apps like Trello, Notion, or Asana.
   * I think it would be great to automatically add cards to my kanban board that I use to keep track of recipes I like.
+* Serve "Recipe Cards"
+  * Serve a PDF or image to the user
 
 ## Other Thoughts
 I do not think that this needs to be a recipe manager. I think that people already have their own way that they like to keep track of things. Whether it be in Google Docs, Trello, Asana, Email, or even simply by printing things. I think that this tool can be like "middleware", similar to middleware in the context of Express. It just helps with a executing a task, and hopefully gives you the response (or recipe) that you are looking for.
