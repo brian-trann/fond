@@ -78,7 +78,7 @@ router.get('/all', ensureValidUri, async (req, res, next) => {
 		const url = req.query.url;
 		const fond = await Fond.scrapeFond(url);
 		const { markdown, text } = Fond.formatFond(fond);
-		return res.json({ markup: { markdown, text }, recipe: fond });
+		return res.json({ recipe: { markdown, text }, data: fond });
 	} catch (error) {
 		return next(error);
 	}

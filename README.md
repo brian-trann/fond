@@ -1,35 +1,50 @@
 # Fond
-Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on Heroko [LINK](https://fond-backend.herokuapp.com/)
+Fond is a web API built using Express.js. It is currently in development to be a more feature rich web application with a React front end. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/), but the `/` endpoint is not set up and will send an error. The link below will respond with something useful.
 
 
-Click this [example link here](https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F10%2Fsous-vide-pork-belly-bun-pork-braise-mayonnaise-quick-pickled-cucumbers-recipe.html) or copy and paste the link below into your browser. The request is made to the `/recipe/all` endpoint.
+Click this [example link here](https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F10%2Fsous-vide-pork-belly-bun-pork-braise-mayonnaise-quick-pickled-cucumbers-recipe.html) or copy and paste the link below into your browser. The request is made to the `/recipe/all` endpoint. The response is JSON.
 ```
 https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F10%2Fsous-vide-pork-belly-bun-pork-braise-mayonnaise-quick-pickled-cucumbers-recipe.html
 ```
 
-## The problem I am trying to solve
-I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with web modals blocking the ability to scroll to find the ingredients and recipe at the very bottom of the page. I especially find this inconvenient when I am at the grocery store and I need make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone.
+## The problem I am trying to solve:
+ I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone. Only to have the recipe reload again when I go to cook it.
 
-While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extention that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
+While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extension that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
 
+<img src='./assets/prototype-icon.png' alt='prototype icon' width='100'>
 
 ## Description
 The API uses `Fond.scrapeFond(url)` which scrapes recipe data by targeting the `@Recipe` inside of ld+json scripts. It takes advantage of [Google's structured data guidelines for recipes](https://developers.google.com/search/docs/data-types/recipe). 
 
-## Node Version
-v12.18.3
+## Considerations
+The way that I implemented the scraping functionality is extremly specific, and it might not work for all recipe websites. This implementation takes advantage of the fact that recipe websites want to be seen on Google's search engine, and if websites are not using it, this will not work. 
+
+Another consideration is that the `@Recipe` spec might change.
+
+
 
 # Notes / To Do
 - [x] Separate Command line usage and Express Backend
-- [ ] Refactor `.formatFond` to include image
+- [ ] ~~Refactor `.formatFond` to include image~~
+  - I do not think I need to include the image in the specific markdown response since the image URLs are already included in one of the endpoints. If I have one endpoint with more query params, this may solve that problem.
+- [ ] Add query param: ?format=md|html|txt|xml|yaml
+  - Instead of the different `/txt`, `/md`, `/all` endpoints, consider simplifying into one endpoint that can optionally take a `format` param, and the endpoint defaults to all of the available formats.
 - [ ] Authentication
+  - Add basic authentication, just in case this blows up on the internet. Highly unlikely, but I don't an unexpected bill from Heroku
 - [ ] Integrate database
 - [ ] Validation
 - [ ] Testing
+  - I have some basic coverage, but I need to research mocking 
+  - Need to research how to test a web scraper
 
 # Future Goals
 * Twilio integration to send yourself the plain text from the recipe
 * App integration for popular productivity apps like Trello, Notion, or Asana.
+  * I think it would be great to automatically add cards to my kanban board that I use to keep track of recipes I like.
+
+## Other Thoughts
+I do not think that this needs to be a recipe manager. I think that people already have their own way that they like to keep track of things. Whether it be in Google Docs, Trello, Asana, Email, or even simply by printing things. I think that this tool can be like "middleware", similar to middleware in the context of Express. It just helps with a executing a task, and hopefully gives you the response (or recipe) that you are looking for.
 
 # Usage
 ### Required Parameters
@@ -37,6 +52,12 @@ v12.18.3
 
 ```
 .../recipe?url=https%3A%2F%2Fwww.seriouseats.com%2Frecipes%2F2013%2F11%2Fsous-vide-deep-fried-turkey-porchetta-recipe.html
+```
+* Sending a request like the one below will not work:
+```
+// this will not work:
+
+.../recipe?url=https://www.seriouseats.com/recipes/2013/11/sous-vide-deep-fried-turkey-porchetta-recipe.html
 ```
 
 ### Endpoints:
@@ -151,3 +172,5 @@ v12.18.3
   }
 }
 ```
+## Node Version
+v12.18.3
