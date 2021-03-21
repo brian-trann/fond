@@ -12,7 +12,7 @@ https://fond-backend.herokuapp.com/recipe/all?url=https%3A%2F%2Fwww.seriouseats.
 ```
 
 ## The problem I am trying to solve:
- I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone. Only to have the recipe reload again when I go to cook it.
+ I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone… Only to have the recipe reload again when I go to cook it. I want an easy way to see the recipe instructions and ingredients without needing to repeatedly deal with these issues. 
 
 Another slight quirk, with popular recipe websites is that there sometimes is a lengthy story behind how they came up with the recipe itself.
 
