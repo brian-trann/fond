@@ -12,10 +12,16 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "cheerio": "^1.0.0-rc.5",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonschema": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "pg": "^8.5.1",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
