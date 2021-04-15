@@ -26,9 +26,11 @@ router.post('/token', async (req, res, next) => {
 		}
 
 		const { email, password } = req.body;
+
 		const user = await User.authenticate(email, password);
+		console.log(user);
 		const token = createToken(user);
-		return res.json({ token });
+		return res.json({ token, isConfirmed: user.isConfirmed });
 	} catch (error) {
 		return next(error);
 	}
@@ -63,7 +65,7 @@ router.post('/register', async (req, res, next) => {
 		// await User.verifyEmail(emailToken,newUser.email)
 		const token = createToken(newUser);
 
-		return res.status(201).json({ token, isConfirmed: false });
+		return res.status(201).json({ token });
 	} catch (error) {
 		return next(error);
 	}

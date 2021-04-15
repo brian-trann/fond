@@ -1,6 +1,6 @@
 CREATE TABLE users (
     email TEXT PRIMARY KEY CHECK (position('@' IN email) > 1),
-    username VARCHAR(25) NOT NULL,
+    username VARCHAR(25) NOT NULL UNIQUE,
     password TEXT NOT NULL,
     is_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     email_token TEXT,

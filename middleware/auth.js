@@ -5,7 +5,7 @@ const { SECRET_KEY } = require('../config');
 const { UnauthorizedError } = require('../expressError');
 
 /** Middleware: Authenticate user.
- *
+ * 
  * If a token was provided, verify it, and, if valid, store the token payload
  * on res.locals (this will include the username and isAdmin field.)
  *
@@ -19,6 +19,7 @@ const authenticateJWT = (req, res, next) => {
 			const token = authHeader.replace(/^[Bb]earer /, '').trim();
 			res.locals.user = jwt.verify(token, SECRET_KEY);
 		}
+		// Instead of in headers, may send in request body
 		return next();
 	} catch (err) {
 		return next();

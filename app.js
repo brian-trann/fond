@@ -2,6 +2,7 @@ const express = require('express');
 const { NotFoundError } = require('./expressError');
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipe');
+const userRoutes = require('./routes/users');
 const morgan = require('morgan');
 const cors = require('cors');
 
@@ -15,6 +16,7 @@ app.use(morgan('tiny'));
 /** Routes */
 app.use('/recipe', recipeRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 /** 404 Handler */
 app.use((req, res, next) => {
