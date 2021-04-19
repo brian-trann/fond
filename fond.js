@@ -218,18 +218,43 @@ class Fond {
    * @returns Promise, that will resolve to an Object, will throw error
    */
 	static async scrapeFond(link) {
-		const res = await axios.get(link);
-		console.log('NETWORK REQUEST');
-		const $ = cheerio.load(res.data);
-		const nodes = $(`script[type="application/ld+json"]`).toArray();
-		const nodesArr = nodes.map((element) => element.children);
-		const parsedNodes = Fond.parseNodes(nodesArr);
-		const recipes = Fond.filterRecipes(parsedNodes);
-		const recipe = Fond.checkRecipe(recipes);
-		if (!recipe) {
-			throw new BadRequestError('Unable to parse script[type="application/ld+json"]');
-		} else {
-			return recipe;
+		try {
+			const res = await axios.get(link);
+
+			const $ = cheerio.load(res.data);
+
+			const nodes = $(`script[type="application/ld+json"]`).toArray();
+			const nodesArr = nodes.map((element) => element.children);
+			const parsedNodes = Fond.parseNodes(nodesArr);
+			const recipes = Fond.filterRecipes(parsedNodes);
+			const recipe = Fond.checkRecipe(recipes);
+			if (!recipe) {
+				throw new BadRequestError('Unable to parse script[type="application/ld+json"]');
+			} else {
+				recipe.url = link;
+
+				if (!recipe.keywords) {
+					recipe.keywords = '';
+				}
+
+				// Some recipes will be formatted as an array
+				// The Google Spec recommends keywords to be a comma
+				// separated string
+
+				if (Array.isArray(recipe.keywords)) {
+					const keywords = recipe.keywords.join(', ');
+					recipe.keywords = keywords;
+				}
+
+				return { recipe, success: true };
+			}
+		} catch (error) {
+			if (!error.response) {
+				error.response = { status: 400 };
+			}
+
+			const status = error.response.status;
+			return { error: error.message, success: false, status };
 		}
 	}
 }

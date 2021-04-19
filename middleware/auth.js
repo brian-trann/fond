@@ -19,7 +19,6 @@ const authenticateJWT = (req, res, next) => {
 			const token = authHeader.replace(/^[Bb]earer /, '').trim();
 			res.locals.user = jwt.verify(token, SECRET_KEY);
 		}
-		// Instead of in headers, may send in request body
 		return next();
 	} catch (err) {
 		return next();
@@ -47,7 +46,11 @@ const ensureLoggedIn = (req, res, next) => {
 const ensureCorrectUser = (req, res, next) => {
 	try {
 		const user = res.locals.user;
-		if (!user.username === req.params.username) {
+
+		if (!user) throw new UnauthorizedError();
+
+		if (!user.user === req.params.username) {
+			console.log('ensure correct user middleware');
 			throw new UnauthorizedError();
 		}
 		return next();

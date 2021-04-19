@@ -9,7 +9,7 @@ CREATE TABLE users (
 
 CREATE TABLE recipes (
     id SERIAL PRIMARY KEY,
-    url TEXT NOT NULL,
+    url TEXT NOT NULL UNIQUE,
     raw_recipe TEXT,
     keywords TEXT,
     title TEXT
@@ -21,3 +21,7 @@ CREATE TABLE user_recipes (
     PRIMARY KEY (email, recipe_id)
 );
 
+CREATE TABLE failed_recipes (
+    id SERIAL PRIMARY KEY,
+    url TEXT NOT NULL UNIQUE
+);

@@ -2,17 +2,18 @@ const express = require('express');
 const { NotFoundError } = require('./expressError');
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipe');
+
 const userRoutes = require('./routes/users');
 const morgan = require('morgan');
 const cors = require('cors');
-
+const { authenticateJWT } = require('./middleware/auth');
 /** Express app for Fond webapp */
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
-
+app.use(authenticateJWT);
 /** Routes */
 app.use('/recipe', recipeRoutes);
 app.use('/auth', authRoutes);

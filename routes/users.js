@@ -3,8 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-
-router.get('/:username', async (req, res, next) => {
+const { ensureCorrectUser } = require('../middleware/auth');
+router.get('/:username', ensureCorrectUser, async (req, res, next) => {
 	// This will need middleware to confirm JWT and correct User
 	try {
 		console.log(req.params.username);
