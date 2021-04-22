@@ -20,7 +20,7 @@ class Fond {
 	 */
 	static parseNodes(nodesArr) {
 		return nodesArr.map(([ child ]) => {
-			return JSON.parse(child.data);
+			return JSON.parse(child.data.replace(/\n/g, ''));
 		});
 	}
 
