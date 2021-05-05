@@ -1,3 +1,4 @@
+'use strict';
 const express = require('express');
 const { NotFoundError } = require('./expressError');
 const authRoutes = require('./routes/auth');

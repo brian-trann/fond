@@ -1,3 +1,8 @@
+const db = require('../db');
+const User = require('../models/user');
+const { generateEmailTokenAndDate } = require('../helpers/emailToken');
+const { createToken } = require('../helpers/tokens');
+
 const TEST_URL =
 	'https://www.seriouseats.com/recipes/2013/11/sous-vide-deep-fried-turkey-porchetta-recipe.html';
 const TEST_RECIPE_RESPONSE = {
@@ -83,4 +88,54 @@ const TEST_RECIPE_RESPONSE = {
 			'deep-fried, holiday, low carb, porchetta, thanksgiving, turchetta, turkey'
 	}
 };
-module.exports = { TEST_URL, TEST_RECIPE_RESPONSE };
+const commonBeforeAll = async () => {
+	const testUser1 = generateEmailTokenAndDate();
+	const emailToken1 = testUser1.emailToken;
+	const tokenExpiration1 = testUser1.tokenExpiration;
+	const testUser2 = generateEmailTokenAndDate();
+	const emailToken2 = testUser2.emailToken;
+	const tokenExpiration2 = testUser2.tokenExpiration;
+	await db.query("DELETE FROM users WHERE email = 'test1@test.com'");
+	await db.query("DELETE FROM users WHERE email = 'test2@test.com'");
+	await User.register({
+		email           : 'test1@test.com',
+		password        : 'testpassword1',
+		username        : 'testuser1',
+		isConfirmed     : false,
+		emailToken      : emailToken1,
+		tokenExpiration : tokenExpiration1
+	});
+	await User.register({
+		email           : 'test2@test.com',
+		password        : 'testpassword2',
+		username        : 'testuser2',
+		isConfirmed     : false,
+		emailToken      : emailToken2,
+		tokenExpiration : tokenExpiration2
+	});
+};
+
+const commonBeforeEach = async () => {
+	await db.query('BEGIN');
+};
+
+const commonAfterEach = async () => {
+	await db.query('ROLLBACK');
+};
+
+const commonAfterAll = async () => {
+	await db.end();
+};
+
+const user1Token = createToken({ username: 'testuser1', isConfirmed: false });
+const user2Token = createToken({ username: 'testuser2', isConfirmed: false });
+module.exports = {
+	TEST_URL,
+	TEST_RECIPE_RESPONSE,
+	commonBeforeAll,
+	commonBeforeEach,
+	commonAfterEach,
+	commonAfterAll,
+	user1Token,
+	user2Token
+};

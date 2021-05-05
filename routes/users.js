@@ -17,7 +17,7 @@ router.get('/:username', ensureCorrectUser, async (req, res, next) => {
 });
 
 /**
- * POST /user/:username /recipes/:recipeId
+ * POST /user/:username /recipes/:recipeId/like
  */
 router.post('/:username/recipe/:recipeId/like', async (req, res, next) => {
 	try {
@@ -29,7 +29,9 @@ router.post('/:username/recipe/:recipeId/like', async (req, res, next) => {
 		return next(error);
 	}
 });
-
+/**
+ * POST /user/:username /recipes/:recipeId/unlike
+ */
 router.post('/:username/recipe/:recipeId/unlike', async (req, res, next) => {
 	try {
 		const recipeId = +req.params.recipeId;

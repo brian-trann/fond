@@ -13,8 +13,8 @@ const { ensureValidUri } = require('../middleware/middleware');
 router.get('/', async (req, res, next) => {
 	try {
 		// validate limit and skip
-		const limit = parseInt(req.query.limit);
-		const skip = parseInt(req.query.skip);
+		const limit = parseInt(req.query.limit || 15);
+		const skip = parseInt(req.query.skip || 0);
 
 		const recipes = await Recipe.getRecipes(limit, skip, req.query.search);
 		return res.json({ recipes });

@@ -49,7 +49,7 @@ const ensureCorrectUser = (req, res, next) => {
 
 		if (!user) throw new UnauthorizedError();
 
-		if (!user.user === req.params.username) {
+		if (user.user !== req.params.username) {
 			console.log('ensure correct user middleware');
 			throw new UnauthorizedError();
 		}

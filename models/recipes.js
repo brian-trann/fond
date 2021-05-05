@@ -95,7 +95,7 @@ class Recipe {
    * Returns [{ id, url, raw_recipe, keywords, title }, ...]
    * */
 
-	static async getRecipes(limit, skip, search) {
+	static async getRecipes(limit = 20, skip, search) {
 		console.log('limit: ', limit);
 		console.log('skip: ', skip);
 

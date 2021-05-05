@@ -7,7 +7,7 @@ describe('ensureValidUri', () => {
 
 	test('works with valid url', () => {
 		expect.assertions(1);
-		const req = { query: { url: testUrl } };
+		const req = { body: { url: testUrl } };
 		const res = {};
 		const next = (err) => {
 			expect(err).toBeFalsy();
@@ -16,7 +16,7 @@ describe('ensureValidUri', () => {
 	});
 	test('works: throws error with invalid url', () => {
 		expect.assertions(1);
-		const req = { query: { url: 'invalid-url' } };
+		const req = { body: { url: 'invalid-url' } };
 		const res = {};
 		const next = (err) => {
 			expect(err instanceof BadRequestError).toBeTruthy();
@@ -25,7 +25,7 @@ describe('ensureValidUri', () => {
 	});
 	test('works: throws error with empty string as url', () => {
 		expect.assertions(1);
-		const req = { query: { url: '' } };
+		const req = { body: { url: '' } };
 		const res = {};
 		const next = (err) => {
 			expect(err instanceof BadRequestError).toBeTruthy();
