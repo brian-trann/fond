@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const axios = require('axios');
+
 // const fs = require('fs');
 // const path = require('path');
 const { BadRequestError } = require('./expressError');
@@ -31,8 +32,8 @@ class Fond {
      * @return {Array}
      */
 	static filterRecipes = (parsedNodes) => {
-		return parsedNodes.filter((node) => {
-			return node['@type'] === 'Recipe';
+		return parsedNodes.filter((n) => {
+			return n['@type'] == 'Recipe' || n['@type'] == [ 'Recipe' ];
 		});
 	};
 
@@ -211,6 +212,22 @@ class Fond {
 	 */
 	static handleError = (error) => console.error(error);
 
+	static formatNodes = (nodes) => {
+		console.log(nodes);
+		if (Array.isArray(nodes)) {
+			nodes.forEach((node) => {
+				if (Array.isArray(node)) {
+					node.forEach((n) => {
+						if (typeof n === 'object' && n['@type'] == 'Recipe') {
+							console.log(n);
+							nodes.push(n);
+						}
+					});
+				}
+			});
+		}
+		return nodes;
+	};
 	/**
    * scrapeFond()
 	 *  - main method to scrape a given URL
@@ -225,8 +242,12 @@ class Fond {
 
 			const nodes = $(`script[type="application/ld+json"]`).toArray();
 			const nodesArr = nodes.map((element) => element.children);
+
 			const parsedNodes = Fond.parseNodes(nodesArr);
-			const recipes = Fond.filterRecipes(parsedNodes);
+
+			const formattedNodes = Fond.formatNodes(parsedNodes);
+			const recipes = Fond.filterRecipes(formattedNodes);
+
 			const recipe = Fond.checkRecipe(recipes);
 			if (!recipe) {
 				throw new BadRequestError('Unable to parse script[type="application/ld+json"]');

@@ -96,9 +96,6 @@ class Recipe {
    * */
 
 	static async getRecipes(limit = 20, skip, search) {
-		console.log('limit: ', limit);
-		console.log('skip: ', skip);
-
 		const queryValues = [];
 		const whereExpressions = [];
 		let query = `SELECT id,
@@ -164,12 +161,12 @@ class Recipe {
 	 * (private)
 	*/
 	static async _failedScrape(url) {
-		await db.query(
-			`INSERT INTO failed_recipes (url)
-				VALUES ($1)
-				RETURNING id, url`,
-			[ url ]
-		);
+		// await db.query(
+		// 	`INSERT INTO failed_recipes (url)
+		// 		VALUES ($1)
+		// 		RETURNING id, url`,
+		// 	[ url ]
+		// );
 
 		return;
 	}

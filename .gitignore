@@ -1,3 +1,6 @@
+# SQL seed files
+fond-seed.sql
+recipe-seed-v2.sql
 # file output directory
 /file_output
 

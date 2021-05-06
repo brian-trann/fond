@@ -3,7 +3,7 @@
 >The culinary term fond, French for "base" or "foundation", refers to this sauce, although it is also sometimes used to describe the browned food bits instead (commonly in the United States). - [Wikipedia](https://en.wikipedia.org/wiki/Deglazing_(cooking))
 
 ---
-Fond is a full stack recipe web app and web scraper built using NodeJS, React, PostgreSQL, and Express. It's goal is to make it easier to see recipe instructions and ingredients and to share recipes with oneself. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/)
+Fond is a full stack recipe web app and web scraper built using NodeJS, React, PostgreSQL, and Express. It's goal is to make it easier to see recipe instructions and ingredients and to share recipes with oneself. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/) Front End Repository: [GitHub](https://github.com/brian-trann/fond-frontend).
 
 
 ## The problem I am trying to solve:
@@ -15,15 +15,24 @@ I just want a way to easily see the recipe, ingredients and instructions... The 
 
 While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extension that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
 
-<img src='./assets/prototype-icon.png' alt='prototype icon' width='100'>
 
 ## Approach
-The API uses `Fond.scrapeFond(url)` which scrapes recipe data by targeting the `@Recipe` inside of ld+json scripts. It takes advantage of [Google's structured data guidelines for recipes](https://developers.google.com/search/docs/data-types/recipe). This iteration used [Bon Appetit](https://www.bonappetit.com/) and [Serious Eats](https://www.seriouseats.com/) as a target.
+The API uses `Fond.scrapeFond(url)` which scrapes recipe data by targeting the `@Recipe` inside of ld+json scripts. It takes advantage of [Google's structured data guidelines for recipes](https://developers.google.com/search/docs/data-types/recipe). This iteration used [Bon Appetit](https://www.bonappetit.com/) and [Serious Eats](https://www.seriouseats.com/) as a target. **Update 5/5/2021:** Serious Eats rolled out a new website design that breaks the scraper.
 
 ## Considerations
-The way that I implemented the scraping functionality is extremly specific, and it might not work for all recipe websites. This implementation takes advantage of the fact that recipe websites want to be seen on Google's search engine, and if websites are not using it, this will not work. 
+The way that I implemented the scraping functionality is extremly specific, and it might not work for all recipe websites. This implementation takes advantage of the fact that recipe websites want to be seen on Google's search engine, and if websites are not using it, this will not work.
 
 Another consideration is that the `@Recipe` spec might change.
+
+## Preview
+### Recipes Page
+<img src='./assets/recipes-page-md.png' alt='Recipes Page Preview' width='700'>
+
+### Recipe Page
+<img src='./assets/recipe-page-md.png' alt='Recipe Page Preview' width='700'>
+
+### Scraping Page
+<img src='./assets/scrape-page-md.png' alt='Scrape Page Preview' width='700'>
 
 ## To Do's:
 - [ ] Implement Email Authorization / Confirmation
