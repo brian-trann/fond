@@ -1,6 +1,7 @@
 # SQL seed files
 fond-seed.sql
 recipe-seed-v2.sql
+recipe-seed-v3.sql
 # file output directory
 /file_output
 
