@@ -11,7 +11,11 @@ const { authenticateJWT } = require('./middleware/auth');
 /** Express app for Fond webapp */
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+	origin               : 'https://hard-verse.surge.sh',
+	optionsSuccessStatus : 200
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authenticateJWT);
