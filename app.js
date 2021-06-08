@@ -6,12 +6,12 @@ const recipeRoutes = require('./routes/recipe');
 
 const userRoutes = require('./routes/users');
 const morgan = require('morgan');
-// const cors = require('cors');
+const cors = require('cors');
 const { authenticateJWT } = require('./middleware/auth');
 /** Express app for Fond webapp */
 
 const app = express();
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authenticateJWT);
