@@ -213,7 +213,6 @@ class Fond {
 	static handleError = (error) => console.error(error);
 
 	static formatNodes = (nodes) => {
-		console.log(nodes);
 		if (Array.isArray(nodes)) {
 			nodes.forEach((node) => {
 				if (Array.isArray(node)) {
@@ -275,7 +274,7 @@ class Fond {
 			}
 
 			const status = error.response.status;
-			return { error: error.message, success: false, status };
+			return { error: error.message, success: false, status, errorTwo: error };
 		}
 	}
 }
