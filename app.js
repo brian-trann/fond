@@ -15,7 +15,8 @@ const corsOptions = {
 	origin               : 'https://hard-verse.surge.sh',
 	optionsSuccessStatus : 200
 };
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 app.use(authenticateJWT);
