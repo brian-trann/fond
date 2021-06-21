@@ -5,6 +5,8 @@
 ---
 Fond is a full stack recipe web app and web scraper built using NodeJS, React, PostgreSQL, and Express. It's goal is to make it easier to see recipe instructions and ingredients and to share recipes with oneself. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/) Front End Repository: [GitHub](https://github.com/brian-trann/fond-frontend).
 
+## Demo
+[Fond](hard-verse.surge.sh) hosted on [Surge](https://surge.sh/)
 
 ## The problem I am trying to solve:
  I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone… Only to have the recipe reload again when I go to cook it. I want an easy way to see the recipe instructions and ingredients without needing to repeatedly deal with these issues. 
@@ -12,6 +14,8 @@ Fond is a full stack recipe web app and web scraper built using NodeJS, React, P
 Another slight quirk, with popular recipe websites is that there sometimes is a lengthy story behind how they came up with the recipe itself.
 
 I just want a way to easily see the recipe, ingredients and instructions... The "fond" of the recipe page.
+
+I understand why recipe sites need to do this. Companies need to generate money.
 
 While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extension that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
 
@@ -34,10 +38,12 @@ Another consideration is that the `@Recipe` spec might change.
 ### Scraping Page
 <img src='./assets/scrape-page-md.png' alt='Scrape Page Preview' width='700'>
 
-## To Do's:
+# Stretch Goals:
 - [ ] Implement Email Authorization / Confirmation
-- [ ] Confirm Email
-- [ ] Resend Email Verification (token)
+- [ ] Admin privileges to more easily view links that do not work. 
+## Stretch Stretch Goals
+* App integration for popular productivity apps like Trello, Notion, or Asana via the OAuth Framework
+  * I think it would be great to automatically add cards to my kanban board that I use to keep track of recipes I like.
 
 # Usage
 
@@ -145,9 +151,8 @@ Another consideration is that the `@Recipe` spec might change.
 }
 ```
 
-# Future Goals
-* App integration for popular productivity apps like Trello, Notion, or Asana via the OAuth Framework
-  * I think it would be great to automatically add cards to my kanban board that I use to keep track of recipes I like.
+# Stretch-Strech Goals
+
 
 ## Other Thoughts
 I do not think that this needs to be a recipe manager. I think that people already have their own way that they like to keep track of things. Whether it be in Google Docs, Trello, Asana, Email, or even simply by printing things. I think that this tool can be like "middleware", similar to middleware in the context of Express. It just helps with a executing a task, and hopefully gives you the response (or recipe) that you are looking for.
