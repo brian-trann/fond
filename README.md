@@ -6,7 +6,7 @@
 Fond is a full stack recipe web app and web scraper built using NodeJS, React, PostgreSQL, and Express. It's goal is to make it easier to see recipe instructions and ingredients and to share recipes with oneself. Fond is also implemented for the command line, and is on the `command-line` branch. Web API is hosted on [Heroku](https://fond-backend.herokuapp.com/) Front End Repository: [GitHub](https://github.com/brian-trann/fond-frontend).
 
 ## Demo
-[Fond](hard-verse.surge.sh) hosted on [Surge](https://surge.sh/)
+[Fond](https://hard-verse.surge.sh/) hosted on [Surge](https://surge.sh/)
 
 ## The problem I am trying to solve:
  I am trying to solve the inconvenient problem of needing to parse through a lengthy recipe website with modals blocking the ability to scroll. I especially find this inconvenient when I am at the grocery store and I need to make sure I have all of the ingredients, only to have to parse through the web page again because it reloaded on my phone… Only to have the recipe reload again when I go to cook it. I want an easy way to see the recipe instructions and ingredients without needing to repeatedly deal with these issues. 
@@ -18,6 +18,8 @@ I just want a way to easily see the recipe, ingredients and instructions... The 
 I understand why recipe sites need to do this. Companies need to generate money.
 
 While this iteration does not solve my problem, I think that it will be a backbone for a future front end tool, or an extension that has the capability to send yourself the raw recipe text via email or to integrate a productivity tool like Trello or Asana.
+
+**Update 7/14/2021**: I figured out a different way to solve this problem! [Link to Recipe Shortcut iOS Repo](https://github.com/brian-trann/recipe-shortcut-ios)
 
 
 ## Approach
